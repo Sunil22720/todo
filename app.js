@@ -105,13 +105,13 @@ function addTask() {
 
   tasks.push(newTask);
   saveTasks();
-  
+
   // Reset Form
   taskInput.value = '';
   taskDate.value = '';
   taskCategory.selectedIndex = 0;
   taskPriority.value = 'Medium';
-  
+
   render();
 }
 
@@ -151,13 +151,13 @@ function enableInlineEdit(id, titleEl, infoEl) {
   if (!task || task.completed) return;
 
   const originalTitle = task.title;
-  
+
   // Create Input
   const input = document.createElement('input');
   input.type = 'text';
   input.className = 'inline-edit-input';
   input.value = originalTitle;
-  
+
   // Replace Title with Input
   titleEl.replaceWith(input);
   input.focus();
@@ -227,7 +227,7 @@ function render() {
   let filteredTasks = tasks.filter(task => {
     // Search Query Match
     const matchesSearch = task.title.toLowerCase().includes(searchQuery);
-    
+
     // Status Filter Match
     let matchesFilter = true;
     if (currentFilter === 'active') {
@@ -263,12 +263,12 @@ function render() {
 
   // 4. Populate Task List
   taskList.innerHTML = '';
-  
+
   if (filteredTasks.length === 0) {
     emptyState.style.display = 'flex';
   } else {
     emptyState.style.display = 'none';
-    
+
     filteredTasks.forEach(task => {
       const taskItem = document.createElement('li');
       taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
@@ -281,12 +281,12 @@ function render() {
         today.setHours(0, 0, 0, 0);
         const taskDueDate = new Date(task.dueDate);
         taskDueDate.setHours(0, 0, 0, 0);
-        
+
         const formattedDate = new Date(task.dueDate).toLocaleDateString('en-US', {
           month: 'short',
           day: 'numeric'
         });
-        
+
         const isOverdue = !task.completed && (taskDueDate < today);
         dateBadgeHTML = `
           <span class="due-date ${isOverdue ? 'overdue' : ''}">
@@ -339,7 +339,7 @@ function render() {
       const infoContainer = taskItem.querySelector('.task-info');
 
       checkbox.addEventListener('click', () => toggleTaskComplete(task.id));
-      
+
       // Inline edit triggers: click edit button OR double click task text
       editBtn.addEventListener('click', () => enableInlineEdit(task.id, titleSpan, infoContainer));
       titleSpan.addEventListener('dblclick', () => enableInlineEdit(task.id, titleSpan, infoContainer));
